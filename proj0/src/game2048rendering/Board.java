@@ -72,7 +72,7 @@ public class Board {
     }
 
     
-    /** Places the Tile TILE at column x, y y where x and y are
+    /** Places the Tile TILE at column x, y where x and y are
      * treated as coordinates with respect to the current viewPerspective.
      *
      * (0, 0) is bottom-left corner.
@@ -108,7 +108,7 @@ public class Board {
     public void resetMerged() {
         for (int x = 0; x < size(); x += 1) {
             for (int y = 0; y < size(); y += 1) {
-                if (_values[x][y] != null){
+                if (_values[x][y] != null) {
                     _values[x][y].setMerged(false);
                 }
             }

@@ -40,7 +40,7 @@ public class Tile {
         return _value;
     }
 
-    /** Return my next state.  Before I am moved or merged, I am my
+    /** Return my next state. Before I am moved or merged, I am my
      *  own successor. */
     Tile next() {
         return _next == null ? this : _next;
