@@ -17,6 +17,9 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
 
     @Override
     public void addFirst(T x) {
+        if (size == arrSize) {
+            arr = resizingUp();
+        }
         head = Math.floorMod(head - 1, arrSize);
         arr[head] = x;
         size++;
@@ -24,6 +27,9 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
 
     @Override
     public void addLast(T x) {
+        if (size == arrSize) {
+            arr = resizingUp();
+        }
         tail = Math.floorMod(tail + 1, arrSize);
         arr[tail] = x;
         size++;
@@ -37,9 +43,9 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         }
 
         for (int i = head; i != tail; i = Math.floorMod(i + 1, arrSize)) {
-            returnList.add(this.get(i));
+            returnList.add(get(i));
         }
-        returnList.add(this.get(tail));
+        returnList.add(get(tail));
         return returnList;
     }
 
@@ -55,20 +61,24 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
 
     @Override
     public T removeFirst() {
-        if (this.size == 0) {
+        if (size == 0) {
             return null;
+        } else if (arrSize > 16 && arrSize / 4 > size) {
+            arr = resizingDown();
         }
-        T returnItem = this.get(head);
+        T returnItem = get(head);
         head = Math.floorMod(head + 1, arrSize);
         return returnItem;
     }
 
     @Override
     public T removeLast() {
-        if (this.size == 0) {
+        if (size == 0) {
             return null;
+        } else if (arrSize > 16 && arrSize / 4 > size) {
+            arr = resizingDown();
         }
-        T returnItem = this.get(tail);
+        T returnItem = get(tail);
         tail = Math.floorMod(tail - 1, arrSize);
         return returnItem;
     }
@@ -90,6 +100,32 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
 
     @Override
     public T getRecursive(int index) {
-        return null;
+        throw new UnsupportedOperationException("No need to implement getRecursive for proj 1b");
+    }
+
+    private T[] resizingUp() {
+        T[] newArr = (T[]) new Object[arrSize * 2];
+        int j = 0;
+        for (int i = head; i != tail; i = Math.floorMod(i + 1, arrSize), j++) {
+            newArr[j] = get(i);
+        }
+        newArr[j] = get(tail);
+        arrSize *= 2;
+        head = 0;
+        tail = j;
+        return newArr;
+    }
+
+    private T[] resizingDown() {
+        T[] newArr = (T[]) new Object[arrSize / 2];
+        int j = 0;
+        for (int i = head; i != tail; i = Math.floorMod(i + 1, arrSize), j++) {
+            newArr[j] = get(i);
+        }
+        newArr[j] = get(tail);
+        arrSize /= 2;
+        head = 0;
+        tail = j;
+        return newArr;
     }
 }

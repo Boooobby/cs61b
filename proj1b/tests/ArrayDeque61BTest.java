@@ -111,4 +111,29 @@ public class ArrayDeque61BTest {
         assertThat(List.of(a, b, c)).containsExactly("foo", "bar", "baz").inOrder();
     }
 
+    @Test
+    @DisplayName("Test the method resizingUp")
+    void testResizingUp() {
+        Deque61B<Integer> d = new ArrayDeque61B<>();
+        for (int i = 0; i < 10; i++) {
+            d.addLast(i);
+        }
+
+        assertThat(d.toList()).containsExactly(0, 1, 2, 3, 4, 5, 6, 7, 8, 9).inOrder();
+    }
+
+    @Test
+    @DisplayName("Test the method resizingDown")
+    void testResizingDown() {
+        Deque61B<Integer> d = new ArrayDeque61B<>();
+        for (int i = 0; i < 100; i++) {
+            d.addLast(i);
+        }
+        for (int i = 0; i < 95; i++) {
+            d.removeLast();
+        }
+
+        assertThat(d.toList()).containsExactly(0, 1, 2, 3, 4).inOrder();
+    }
+
 }
