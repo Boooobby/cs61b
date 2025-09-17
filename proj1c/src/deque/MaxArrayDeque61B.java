@@ -2,7 +2,7 @@ package deque;
 
 import java.util.*;
 
-public class MaxArrayList<T> implements Deque61B<T> {
+public class MaxArrayDeque61B<T> implements Deque61B<T> {
 
     @Override
     public void addFirst(T x) {
@@ -46,6 +46,11 @@ public class MaxArrayList<T> implements Deque61B<T> {
 
     @Override
     public T getRecursive(int index) {
+        return null;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
         return null;
     }
 }

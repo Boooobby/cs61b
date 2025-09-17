@@ -1,5 +1,7 @@
 package deque;
 
+import org.antlr.v4.runtime.misc.NotNull;
+
 import java.util.*;
 
 public class ArrayDeque61B<T> implements Deque61B<T> {
@@ -54,6 +56,11 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public String toString() {
+        return toList().toString();
     }
 
     @Override

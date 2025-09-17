@@ -20,7 +20,7 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
 
     private class LinkedListDequeIterator implements Iterator<T> {
 
-        private Node cursor = sentinel.next;
+        private Node cursor = sentinel;
 
         @Override
         public boolean hasNext() {
@@ -29,9 +29,8 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
 
         @Override
         public T next() {
-            Node temp = cursor;
             cursor = cursor.next;
-            return temp.item;
+            return cursor.item;
         }
     }
 
@@ -63,6 +62,11 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public String toString() {
+        return toList().toString();
     }
 
     @Override
