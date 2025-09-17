@@ -38,6 +38,25 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        } else if (obj instanceof ArrayDeque61B<?> arr2 && size == arr2.size()) {
+            Iterator<T> it1 = iterator();
+            Iterator<?> it2 = arr2.iterator();
+
+            while (it1.hasNext()) {
+                if (!it1.next().equals(it2.next())) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public void addFirst(T x) {
         if (size == arrSize) {
             arr = resizingUp();

@@ -47,6 +47,25 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        } else if (obj instanceof LinkedListDeque61B<?> lst && size == lst.size()) {
+            Iterator<T> it1 = iterator();
+            Iterator<?> it2 = lst.iterator();
+
+            while (it1.hasNext()) {
+                if (!it1.next().equals(it2.next())) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public void addFirst(T x) {
         Node node = new Node(x, sentinel, sentinel.next);
         sentinel.next.prev = node;
