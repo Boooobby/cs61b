@@ -116,6 +116,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         }
         T returnItem = get(head);
         head = Math.floorMod(head + 1, arrSize);
+        size--;
         return returnItem;
     }
 
@@ -128,6 +129,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         }
         T returnItem = get(tail);
         tail = Math.floorMod(tail - 1, arrSize);
+        size--;
         return returnItem;
     }
 
