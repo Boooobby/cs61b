@@ -1,56 +1,43 @@
 package deque;
 
+import net.sf.saxon.functions.Minimax;
+
 import java.util.*;
 
-public class MaxArrayDeque61B<T> implements Deque61B<T> {
+public class MaxArrayDeque61B<T> extends ArrayDeque61B<T> {
 
-    @Override
-    public void addFirst(T x) {
+    private Comparator<T> comparator;
 
+    public MaxArrayDeque61B(Comparator<T> c) {
+        super();
+        comparator = c;
     }
 
-    @Override
-    public void addLast(T x) {
+    public T max() {
+        if (this.size() == 0) {
+            return null;
+        }
 
+        T res = null;
+        for (T item : this) {
+            if (res == null || comparator.compare(res, item) < 0) {
+                res = item;
+            }
+        }
+        return res;
     }
 
-    @Override
-    public List<T> toList() {
-        return List.of();
-    }
+    public T max(Comparator<T> c) {
+        if (this.size() == 0) {
+            return null;
+        }
 
-    @Override
-    public boolean isEmpty() {
-        return false;
-    }
-
-    @Override
-    public int size() {
-        return 0;
-    }
-
-    @Override
-    public T removeFirst() {
-        return null;
-    }
-
-    @Override
-    public T removeLast() {
-        return null;
-    }
-
-    @Override
-    public T get(int index) {
-        return null;
-    }
-
-    @Override
-    public T getRecursive(int index) {
-        return null;
-    }
-
-    @Override
-    public Iterator<T> iterator() {
-        return null;
+        T res = null;
+        for (T item : this) {
+            if (res == null || c.compare(res, item) > 0) {
+                res = item;
+            }
+        }
+        return res;
     }
 }
