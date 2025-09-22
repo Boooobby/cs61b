@@ -75,7 +75,8 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
      */
     @Override
     public void clear() {
-
+        size = 0;
+        root = null;
     }
 
     /**

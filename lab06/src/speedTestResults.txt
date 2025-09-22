@@ -1,0 +1,24 @@
+Please enter desired length of each string: 1000000
+
+Enter # strings to insert into the maps: #
+Please enter a positive integer: 123
+class ULLMap: 7.32 sec
+class BSTMap: 9.85 sec
+Java's Built-in TreeMap: 8.65 sec
+Java's Built-in HashMap: 9.41 sec
+
+
+Please enter desired length of each string: 50000
+
+Enter # strings to insert into the maps: #
+Please enter a positive integer: 97
+class ULLMap: 0.34 sec
+class BSTMap: 0.27 sec
+Java's Built-in TreeMap: 0.27 sec
+Java's Built-in HashMap: 0.31 sec
+
+Please enter a positive integer: 1024
+class ULLMap: 3.89 sec
+class BSTMap: 3.47 sec
+Java's Built-in TreeMap: 3.46 sec
+Java's Built-in HashMap: 3.12 sec
