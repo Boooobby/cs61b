@@ -1,5 +1,4 @@
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
 
@@ -15,6 +14,50 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
             this.key = key;
             this.value = value;
             left = right = null;
+        }
+    }
+
+    private class BSTMapIterator implements Iterator<K> {
+
+        private List<K> lst;
+        private int cursor;
+
+        public BSTMapIterator() {
+            cursor = 0;
+            lst = new ArrayList<>();
+            traverse(root);
+        }
+
+        private void traverse(Node r) {
+            if (r == null) {
+                return;
+            }
+            traverse(r.left);
+            lst.add(r.key);
+            traverse(r.right);
+        }
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            return cursor < lst.size();
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public K next() {
+            return lst.get(cursor++);
         }
     }
 
@@ -85,7 +128,11 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
      */
     @Override
     public Set<K> keySet() {
-        throw new UnsupportedOperationException();
+        Set<K> set = new TreeSet<>();
+        for (K k : this) {
+            set.add(k);
+        }
+        return set;
     }
 
     /**
@@ -108,7 +155,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
      */
     @Override
     public Iterator<K> iterator() {
-        return null;
+        return new BSTMapIterator();
     }
 
     // private helper methods
