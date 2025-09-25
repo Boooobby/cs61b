@@ -1,9 +1,11 @@
 package ngrams;
 
 import edu.princeton.cs.algs4.In;
+import net.sf.saxon.functions.Minimax;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import static ngrams.TimeSeries.MAX_YEAR;
 import static ngrams.TimeSeries.MIN_YEAR;
@@ -22,7 +24,7 @@ public class NGramMap {
 
     // TODO: Add any necessary static/instance variables.
     HashMap<String, TimeSeries> wordHistory;
-    HashMap<Integer, Double> corpusHistory;
+    TimeSeries corpusHistory;
 
     /**
      * Constructs an NGramMap from WORDSFILENAME and COUNTSFILENAME.
@@ -51,8 +53,8 @@ public class NGramMap {
         return res;
     }
 
-    private HashMap<Integer, Double> readCorpus(String countsFilename) {
-        HashMap<Integer, Double> res = new HashMap<>();
+    private TimeSeries readCorpus(String countsFilename) {
+        TimeSeries res = new TimeSeries();
         In in = new In(countsFilename);
         while (in.hasNextLine()) {
             String[] nextLineSplit = in.readLine().split(",");
@@ -72,7 +74,13 @@ public class NGramMap {
      */
     public TimeSeries countHistory(String word, int startYear, int endYear) {
         // TODO: Fill in this method.
-        return null;
+        TimeSeries res;
+        if (wordHistory.containsKey(word)) {
+            res = new TimeSeries(wordHistory.get(word), startYear, endYear);
+        } else {
+            res = new TimeSeries();
+        }
+        return res;
     }
 
     /**
@@ -83,7 +91,7 @@ public class NGramMap {
      */
     public TimeSeries countHistory(String word) {
         // TODO: Fill in this method.
-        return null;
+        return countHistory(word, MIN_YEAR, MAX_YEAR);
     }
 
     /**
@@ -91,7 +99,19 @@ public class NGramMap {
      */
     public TimeSeries totalCountHistory() {
         // TODO: Fill in this method.
-        return null;
+//        TimeSeries res = new TimeSeries();
+//        for (TimeSeries ts : wordHistory.values()) {
+//            List<Integer> lst = ts.years();
+//            for (int year : lst) {
+//                if (res.containsKey(year)) {
+//                    res.put(year, res.get(year) + ts.get(year));
+//                } else {
+//                    res.put(year, ts.get(year));
+//                }
+//            }
+//        }
+//        return res;
+        return new TimeSeries(corpusHistory, MIN_YEAR, MAX_YEAR);
     }
 
     /**
