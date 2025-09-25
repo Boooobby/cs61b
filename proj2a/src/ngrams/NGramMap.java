@@ -1,6 +1,9 @@
 package ngrams;
 
+import edu.princeton.cs.algs4.In;
+
 import java.util.Collection;
+import java.util.HashMap;
 
 import static ngrams.TimeSeries.MAX_YEAR;
 import static ngrams.TimeSeries.MIN_YEAR;
@@ -18,12 +21,46 @@ import static ngrams.TimeSeries.MIN_YEAR;
 public class NGramMap {
 
     // TODO: Add any necessary static/instance variables.
+    HashMap<String, TimeSeries> wordHistory;
+    HashMap<Integer, Double> corpusHistory;
 
     /**
      * Constructs an NGramMap from WORDSFILENAME and COUNTSFILENAME.
      */
     public NGramMap(String wordsFilename, String countsFilename) {
         // TODO: Fill in this constructor. See the "NGramMap Tips" section of the spec for help.
+        wordHistory = readWords(wordsFilename);
+        corpusHistory = readCorpus(countsFilename);
+    }
+
+    private HashMap<String, TimeSeries> readWords(String wordsFilename) {
+        HashMap<String, TimeSeries> res = new HashMap<>();
+        In in = new In(wordsFilename);
+        while (in.hasNextLine()) {
+            String[] nextLineSplit = in.readLine().split("\t");
+            String word = nextLineSplit[0];
+            int year = Integer.parseInt(nextLineSplit[1]);
+            double occurTimes = Double.parseDouble(nextLineSplit[2]);
+            if (res.containsKey(word)) {
+                res.get(word).put(year, occurTimes);
+            } else {
+                res.put(word, new TimeSeries());
+                res.get(word).put(year, occurTimes);
+            }
+        }
+        return res;
+    }
+
+    private HashMap<Integer, Double> readCorpus(String countsFilename) {
+        HashMap<Integer, Double> res = new HashMap<>();
+        In in = new In(countsFilename);
+        while (in.hasNextLine()) {
+            String[] nextLineSplit = in.readLine().split(",");
+            int year = Integer.parseInt(nextLineSplit[0]);
+            double numOfWords = Double.parseDouble(nextLineSplit[1]);
+            res.put(year, numOfWords);
+        }
+        return res;
     }
 
     /**
