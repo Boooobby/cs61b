@@ -24,8 +24,8 @@ import static ngrams.TimeSeries.MIN_YEAR;
 public class NGramMap {
 
     // TODO: Add any necessary static/instance variables.
-    HashMap<String, TimeSeries> wordHistory;
-    TimeSeries corpusHistory;
+    private final HashMap<String, TimeSeries> wordHistory;
+    private final TimeSeries corpusHistory;
 
     /**
      * Constructs an NGramMap from WORDSFILENAME and COUNTSFILENAME.
