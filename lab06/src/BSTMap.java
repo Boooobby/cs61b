@@ -6,7 +6,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     private int size;
 
     private class Node {
-        private K key;
+        private final K key;
         private V value;
         private Node left, right;
 
@@ -19,7 +19,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
 
     private class BSTMapIterator implements Iterator<K> {
 
-        private List<K> lst;
+        private final List<K> lst;
         private int cursor;
 
         public BSTMapIterator() {

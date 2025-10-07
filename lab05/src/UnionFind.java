@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class UnionFind {
     // TODO: Instance variables
-    private int[] p;
+    private final int[] p;
 
     /* Creates a UnionFind data structure holding N items. Initially, all
        items are in disjoint sets. */
