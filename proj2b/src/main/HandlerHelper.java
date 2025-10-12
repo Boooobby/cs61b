@@ -19,15 +19,38 @@ public class HandlerHelper {
         dg = new DirectedGraph(synsets, hyponyms);
     }
 
-    public String getAllHyponyms(String word) {
+    public String getAllHyponyms(List<String> words) {
+        List<Set<String>> hyponymsList = new ArrayList<>();
+        for (String word : words) {
+            hyponymsList.add(getAllHyponyms(word));
+        }
+
+        Set<String> resSet = new TreeSet<>();
+        Set<String> std = hyponymsList.getFirst();
+        for (String word : std) {
+            boolean flag = true;
+            for (Set<String> s : hyponymsList) {
+                if (!s.contains(word)) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                resSet.add(word);
+            }
+        }
+
+        List<String> resList = new ArrayList<>(resSet);
+        return resList.toString();
+    }
+
+    public Set<String> getAllHyponyms(String word) {
         List<Integer> wordSet = existSet(word);
         Set<String> allHyponyms = new TreeSet<>();
         for (int idx : wordSet) {
             traverse(idx, allHyponyms);
         }
-
-        List<String> res = new ArrayList<>(allHyponyms);
-        return res.toString();
+        return allHyponyms;
     }
 
     private List<Integer> existSet(String word) {
