@@ -14,10 +14,11 @@ public class DirectedGraph {
         for (int i = 0; i < size; i++) {
             adjList.add(new ArrayList<>());
         }
+        map = new HashMap<>();
 
         // createNode
         for (int i = 0; i < strings.length; i++) {
-            String[] splitStrings = strings[i].split(",");
+            String[] splitStrings = strings[i].split(",")[1].split(" ");
             List<String> stringList = new ArrayList<>(Arrays.asList(splitStrings));
             createNode(i, stringList);
         }
