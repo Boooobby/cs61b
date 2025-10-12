@@ -5,8 +5,14 @@ import browser.NgordnetQueryHandler;
 
 public class HyponymsHandler extends NgordnetQueryHandler {
 
+    private HandlerHelper hh;
+
+    public HyponymsHandler(String synsetsFile, String hyponymsFile) {
+        hh = new HandlerHelper(synsetsFile, hyponymsFile);
+    }
+
     @Override
     public String handle(NgordnetQuery q) {
-        return "Hello!";
+        return hh.getAllHyponyms(q.words().getFirst());
     }
 }
