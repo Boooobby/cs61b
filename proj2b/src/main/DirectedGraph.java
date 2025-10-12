@@ -48,4 +48,8 @@ public class DirectedGraph {
     public List<Integer> neighbors(int idx) {
         return adjList.get(idx);
     }
+
+    public int size() {
+        return size;
+    }
 }
