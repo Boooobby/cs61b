@@ -40,4 +40,12 @@ public class DirectedGraph {
     public void addEdge(int a, int b) {
         adjList.get(a).add(b);
     }
+
+    public Set<String> getNode(int idx) {
+        return map.get(idx);
+    }
+
+    public List<Integer> neighbors(int idx) {
+        return adjList.get(idx);
+    }
 }
