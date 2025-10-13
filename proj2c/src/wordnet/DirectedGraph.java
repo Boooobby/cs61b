@@ -1,4 +1,4 @@
-package ngords;
+package wordnet;
 
 import java.util.*;
 

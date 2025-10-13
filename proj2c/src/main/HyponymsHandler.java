@@ -2,7 +2,7 @@ package main;
 
 import browser.NgordnetQuery;
 import browser.NgordnetQueryHandler;
-import ngords.HandlerHelper;
+import wordnet.HandlerHelper;
 
 public class HyponymsHandler extends NgordnetQueryHandler {
 
