@@ -1,11 +1,11 @@
 package wordnet;
 
+import browser.NgordnetQuery;
 import edu.princeton.cs.algs4.In;
+import ngrams.NGramMap;
+import ngrams.TimeSeries;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 public class HandlerHelper {
 
@@ -19,7 +19,66 @@ public class HandlerHelper {
         dg = new DirectedGraph(synsets, hyponyms);
     }
 
-    public String getAllHyponyms(List<String> words) {
+    private static class TimesWordPair implements Comparable<TimesWordPair> {
+        private final Double times;
+        private final String word;
+
+        private TimesWordPair(double times, String word) {
+            this.times = times;
+            this.word = word;
+        }
+
+        @Override
+        public int compareTo(TimesWordPair o) {
+            int cmp = o.times.compareTo(times);
+            if (cmp == 0) {
+                return word.compareTo(o.word);
+            }
+            return cmp;
+        }
+    }
+
+    public String getAllHyponyms(NgordnetQuery q, NGramMap ngm) {
+        Set<String> wordSet = getAllHyponyms(q.words());
+        if (q.k() == 0) {
+            List<String> res = new ArrayList<>(wordSet);
+            return res.toString();
+        }
+        Map<String, TimeSeries> stringTimeSeriesMap = new HashMap<>();
+        for (String word : wordSet) {
+            stringTimeSeriesMap.put(word, ngm.countHistory(word, q.startYear(), q.endYear()));
+        }
+
+        PriorityQueue<TimesWordPair> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        for (String word : stringTimeSeriesMap.keySet()) {
+            double totalTimes = countTimes(stringTimeSeriesMap.get(word));
+            if (totalTimes == 0) {
+                continue;
+            }
+            TimesWordPair twp = new TimesWordPair(totalTimes, word);
+            maxHeap.add(twp);
+        }
+
+        int k = q.k();
+        List<String> res = new ArrayList<>();
+        int iterTimes = Math.min(k, maxHeap.size());
+        for (int i = 0; i < iterTimes; i++) {
+            String word = maxHeap.poll().word;
+            res.add(word);
+        }
+        return res.toString();
+    }
+
+    private double countTimes(TimeSeries ts) {
+        double res = 0;
+        List<Double> dataList = ts.data();
+        for (double d : dataList) {
+            res += d;
+        }
+        return res;
+    }
+
+    private Set<String> getAllHyponyms(List<String> words) {
         List<Set<String>> hyponymsList = new ArrayList<>();
         for (String word : words) {
             hyponymsList.add(getAllHyponyms(word));
@@ -39,12 +98,10 @@ public class HandlerHelper {
                 resSet.add(word);
             }
         }
-
-        List<String> resList = new ArrayList<>(resSet);
-        return resList.toString();
+        return resSet;
     }
 
-    public Set<String> getAllHyponyms(String word) {
+    private Set<String> getAllHyponyms(String word) {
         List<Integer> wordSet = existSet(word);
         Set<String> allHyponyms = new TreeSet<>();
         for (int idx : wordSet) {
