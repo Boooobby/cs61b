@@ -13,7 +13,7 @@ import static java.util.Collections.sort;
 public class HandlerHelper {
 
     private final DirectedGraph dg;
-    private DirectedGraph inverseDg;
+    private final DirectedGraph inverseDg;
 
     public HandlerHelper(String synsetsFile, String hyponymsFile) {
         In in1 = new In(synsetsFile);

@@ -4,7 +4,7 @@ import java.util.*;
 
 public class DirectedGraph {
 
-    private ArrayList<ArrayList<Integer>> adjList;
+    private final ArrayList<ArrayList<Integer>> adjList;
     HashMap<Integer, Set<String>> map;
     private final int size;
 
