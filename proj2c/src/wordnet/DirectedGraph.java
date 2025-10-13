@@ -6,7 +6,7 @@ public class DirectedGraph {
 
     private ArrayList<ArrayList<Integer>> adjList;
     HashMap<Integer, Set<String>> map;
-    private int size;
+    private final int size;
 
     public DirectedGraph(String[] strings, String[] indexes) {
         size = strings.length;
@@ -52,5 +52,9 @@ public class DirectedGraph {
 
     public int size() {
         return size;
+    }
+
+    public ArrayList<ArrayList<Integer>> getAdjList() {
+        return adjList;
     }
 }

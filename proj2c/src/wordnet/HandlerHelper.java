@@ -1,6 +1,7 @@
 package wordnet;
 
 import browser.NgordnetQuery;
+import browser.NgordnetQueryType;
 import edu.princeton.cs.algs4.In;
 import ngrams.NGramMap;
 import ngrams.TimeSeries;
@@ -12,6 +13,7 @@ import static java.util.Collections.sort;
 public class HandlerHelper {
 
     private final DirectedGraph dg;
+    private DirectedGraph inverseDg;
 
     public HandlerHelper(String synsetsFile, String hyponymsFile) {
         In in1 = new In(synsetsFile);
@@ -19,6 +21,20 @@ public class HandlerHelper {
         String[] synsets = in1.readAllLines();
         String[] hyponyms = in2.readAllLines();
         dg = new DirectedGraph(synsets, hyponyms);
+
+        inverseDg = new DirectedGraph(synsets, hyponyms);
+        ArrayList<ArrayList<Integer>> adjListOfDg = dg.getAdjList();
+        ArrayList<ArrayList<Integer>> adjListOfInverseDg = inverseDg.getAdjList();
+        for (ArrayList<Integer> arr : adjListOfInverseDg) {
+            arr.clear();
+        }
+        for (int i = 0; i < dg.size(); i++) {
+            ArrayList<Integer> arr = adjListOfDg.get(i);
+            for (int idx : arr) {
+                ArrayList<Integer> inverseArr = adjListOfInverseDg.get(idx);
+                inverseArr.add(i);
+            }
+        }
     }
 
     private static class TimesWordPair implements Comparable<TimesWordPair> {
@@ -41,7 +57,15 @@ public class HandlerHelper {
     }
 
     public String getAllHyponyms(NgordnetQuery q, NGramMap ngm) {
-        Set<String> wordSet = getAllHyponyms(q.words());
+        if (q.ngordnetQueryType() == NgordnetQueryType.HYPONYMS) {
+            return getAllHyponyms(q, ngm, this.dg);
+        } else {
+            return getAllHyponyms(q, ngm, inverseDg);
+        }
+    }
+
+    public String getAllHyponyms(NgordnetQuery q, NGramMap ngm, DirectedGraph DG) {
+        Set<String> wordSet = getAllHyponyms(q.words(), DG);
         if (q.k() == 0) {
             List<String> res = new ArrayList<>(wordSet);
             return res.toString();
@@ -87,10 +111,10 @@ public class HandlerHelper {
         return res;
     }
 
-    private Set<String> getAllHyponyms(List<String> words) {
+    private Set<String> getAllHyponyms(List<String> words, DirectedGraph DG) {
         List<Set<String>> hyponymsList = new ArrayList<>();
         for (String word : words) {
-            hyponymsList.add(getAllHyponyms(word));
+            hyponymsList.add(getAllHyponyms(word, DG));
         }
 
         Set<String> resSet = new TreeSet<>();
@@ -110,30 +134,30 @@ public class HandlerHelper {
         return resSet;
     }
 
-    private Set<String> getAllHyponyms(String word) {
-        List<Integer> wordSet = existSet(word);
+    private Set<String> getAllHyponyms(String word, DirectedGraph DG) {
+        List<Integer> wordSet = existSet(word, DG);
         Set<String> allHyponyms = new TreeSet<>();
         for (int idx : wordSet) {
-            traverse(idx, allHyponyms);
+            traverse(idx, allHyponyms, DG);
         }
         return allHyponyms;
     }
 
-    private List<Integer> existSet(String word) {
+    private List<Integer> existSet(String word, DirectedGraph DG) {
         List<Integer> res = new ArrayList<>();
-        int size = dg.size();
+        int size = DG.size();
         for (int i = 0; i < size; i++) {
-            if (dg.getNode(i).contains(word)) {
+            if (DG.getNode(i).contains(word)) {
                 res.add(i);
             }
         }
         return res;
     }
 
-    private void traverse(int idx, Set<String> targetSet) {
-        targetSet.addAll(dg.getNode(idx));
-        for (int i : dg.neighbors(idx)) {
-            traverse(i, targetSet);
+    private void traverse(int idx, Set<String> targetSet, DirectedGraph DG) {
+        targetSet.addAll(DG.getNode(idx));
+        for (int i : DG.neighbors(idx)) {
+            traverse(i, targetSet, DG);
         }
     }
 }
