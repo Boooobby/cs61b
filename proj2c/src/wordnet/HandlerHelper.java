@@ -7,6 +7,8 @@ import ngrams.TimeSeries;
 
 import java.util.*;
 
+import static java.util.Collections.sort;
+
 public class HandlerHelper {
 
     private final DirectedGraph dg;
@@ -30,7 +32,11 @@ public class HandlerHelper {
 
         @Override
         public int compareTo(TimesWordPair o) {
-            return times.compareTo(o.times);
+            int cmp = o.times.compareTo(times);
+            if (cmp == 0) {
+                return word.compareTo(o.word);
+            }
+            return cmp;
         }
     }
 
@@ -45,24 +51,31 @@ public class HandlerHelper {
             stringTimeSeriesMap.put(word, ngm.countHistory(word, q.startYear(), q.endYear()));
         }
 
-        PriorityQueue<TimesWordPair> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        PriorityQueue<TimesWordPair> minHeap = new PriorityQueue<>();
         for (String word : stringTimeSeriesMap.keySet()) {
             double totalTimes = countTimes(stringTimeSeriesMap.get(word));
             if (totalTimes == 0) {
                 continue;
             }
             TimesWordPair twp = new TimesWordPair(totalTimes, word);
-            maxHeap.add(twp);
+            minHeap.add(twp);
         }
 
         int k = q.k();
-        List<String> res = new ArrayList<>();
-        int iterTimes = Math.min(k, maxHeap.size());
-        for (int i = 0; i < iterTimes; i++) {
-            String word = maxHeap.poll().word;
-            res.add(word);
+        List<String> tempList = new ArrayList<>();
+        while (k > 0 && !minHeap.isEmpty()) {
+            TimesWordPair twp = minHeap.poll();
+            tempList.add(twp.word);
+            k--;
         }
-        return res.toString();
+        sort(tempList);
+
+        List<String> resList = new ArrayList<>();
+        int kk = q.k();
+        for (int i = 0; i < kk; i++) {
+            resList.add(tempList.get(i));
+        }
+        return resList.toString();
     }
 
     private double countTimes(TimeSeries ts) {
