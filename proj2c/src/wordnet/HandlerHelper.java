@@ -30,11 +30,7 @@ public class HandlerHelper {
 
         @Override
         public int compareTo(TimesWordPair o) {
-            int cmp = o.times.compareTo(times);
-            if (cmp == 0) {
-                return word.compareTo(o.word);
-            }
-            return cmp;
+            return times.compareTo(o.times);
         }
     }
 
