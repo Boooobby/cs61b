@@ -49,7 +49,7 @@ public class FileUtils {
     }
 
     /**
-     * Removes '\r' character from strings for improved compatability for this lab between Windows and other systems
+     * Removes '\r' character from strings for improved compatibility for this lab between Windows and other systems
      * @param contents
      * @return contents minus the '\r' char
      */
