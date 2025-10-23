@@ -1,6 +1,7 @@
 package core;
 
 import tileengine.TETile;
+import utils.RandomUtils;
 
 import java.util.Random;
 
@@ -39,8 +40,24 @@ public class BSP {
 
         if (node.width >= node.height) {
             // split by width and split recursively
+            int newWidth = (int)(RandomUtils.uniform(random, 0.4, 0.6) * node.width);
+            Point rightChild = new Point(node.bottomLeft.getX() + newWidth, node.bottomLeft.getY());
+
+            node.left = new Node(node.bottomLeft, newWidth, node.height);
+            node.right = new Node(rightChild, node.width - newWidth, node.height);
+
+            node.left = splitTheWorld(node.left);
+            node.right = splitTheWorld(node.right);
         } else {
             // split by height and split recursively
+            int newHeight = (int)(RandomUtils.uniform(random, 0.4, 0.6) * node.height);
+            Point rightChild = new Point(node.bottomLeft.getX(), node.bottomLeft.getY() + newHeight);
+
+            node.left = new Node(node.bottomLeft, node.width, newHeight);
+            node.right = new Node(rightChild, node.width, node.height - newHeight);
+
+            node.left = splitTheWorld(node.left);
+            node.right = splitTheWorld(node.right);
         }
 
         node = connectTheRoom(node);
