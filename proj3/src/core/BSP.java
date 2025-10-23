@@ -116,7 +116,42 @@ public class BSP {
 
     // connect two children of node
     private Node connectTheRoom(Node node) {
-        return null;
+        Point p1 = node.left.room.chooseAPoint();
+        Point p2 = node.right.room.chooseAPoint();
+
+        // x-axis
+        if (p1.getX() < p2.getX()) {
+            fillTheYRoad(p1.getX(), p2.getX(), p1.getY());
+        } else {
+            fillTheXRoad(p2.getX(), p1.getX(), p1.getY());
+        }
+
+        // y-axis
+        if (p1.getY() < p2.getY()) {
+            fillTheYRoad(p1.getY(), p2.getY(), p2.getX());
+        } else {
+            fillTheYRoad(p2.getY(), p1.getY(), p2.getX());
+        }
+
+        // choose a room from one child
+        if (RandomUtils.bernoulli(random)) {
+            node.room = node.left.room;
+        } else {
+            node.room = node.right.room;
+        }
+        return node;
+    }
+
+    private void fillTheXRoad(int x1, int x2, int y) {
+        for (int i = x1; i <= x2; i++) {
+            world[i][y] = Tileset.FLOOR;
+        }
+    }
+
+    private void fillTheYRoad(int y1, int y2, int x) {
+        for (int i = y1; i <= y2; i++) {
+            world[x][i] = Tileset.FLOOR;
+        }
     }
 
     public TETile[][] generateTheWorld() {
