@@ -27,14 +27,14 @@ public class BSP {
 
     private Node splitTheWorld(Node node) {
         if (isTooSmall(node)) {
-            createRoom();
+            while (!createRoom(node));
             return node;
         }
 
         if (node.width >= node.height) {
-            // split by width
+            // split by width and split recursively
         } else {
-            // split by height
+            // split by height and split recursively
         }
 
         node = connectTheRoom(node);
@@ -45,8 +45,8 @@ public class BSP {
         return false;
     }
 
-    private void createRoom() {
-
+    private boolean createRoom(Node node) {
+        return false;
     }
 
     private Node connectTheRoom(Node node) {
