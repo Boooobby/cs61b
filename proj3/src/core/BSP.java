@@ -12,8 +12,7 @@ public class BSP {
     private int width, height;
     private Node root;
     private Random random;
-
-    private static final int tooSmallFactor = 8;
+    private int tooSmallFactor;
 
     private class Node {
         Point bottomLeft;
@@ -27,6 +26,7 @@ public class BSP {
             height = h;
             left = right = null;
             room = null;
+            tooSmallFactor = Math.max(width, height) / 5;
         }
     }
 
@@ -89,14 +89,14 @@ public class BSP {
 
     private boolean createRoom(Node node) {
         int xLBound = node.bottomLeft.getX() + 1;
-        int xUBound = (node.bottomLeft.getX() + node.width) - 2;
+        int xUBound = node.bottomLeft.getX() + node.width / 2;
         int yLBound = node.bottomLeft.getY() + 1;
-        int yUBound = (node.bottomLeft.getY() + node.height) - 2;
+        int yUBound = node.bottomLeft.getY() + node.height / 2;
 
         int xp = RandomUtils.uniform(random, xLBound, xUBound);
         int yp = RandomUtils.uniform(random, yLBound, yUBound);
-        int w = Math.max(RandomUtils.uniform(random, Room.minWidth, node.width - 1) - 4, 2);
-        int h = Math.max(RandomUtils.uniform(random, Room.minHeight, node.height - 1) - 4, 2);
+        int w = Math.max(RandomUtils.uniform(random, Room.minWidth, node.width - 1) - 4, Room.minWidth);
+        int h = Math.max(RandomUtils.uniform(random, Room.minHeight, node.height - 1) - 4, Room.minHeight);
 
         if (failToCreate(xp, yp, w, h)) {
             return false;
@@ -108,7 +108,7 @@ public class BSP {
     }
 
     private boolean failToCreate(int xp, int yp, int w, int h) {
-        if (xp + w >= 50 || yp + h >= 50) {
+        if (xp + w >= width || yp + h >= height) {
             return true;
         }
         for (int i = xp; i < xp + w; i++) {
