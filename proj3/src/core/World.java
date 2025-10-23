@@ -2,6 +2,8 @@ package core;
 
 import tileengine.TETile;
 
+import java.util.Random;
+
 public class World {
 
     private TETile[][] world;
@@ -9,5 +11,13 @@ public class World {
     private static final int minHeight = 60;
     private int width;
     private int height;
+
+    private BSP bsp;
+    private Random random;
+    private long seed;
+
+    public World(long seed) {
+        
+    }
 
 }
