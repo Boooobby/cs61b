@@ -34,16 +34,7 @@ public class World {
     }
 
     public void generateWorld() {
-        fillTheWorldWithNothing();
         world = bsp.generateTheWorld();
-    }
-
-    public void fillTheWorldWithNothing() {
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                world[i][j] = Tileset.NOTHING;
-            }
-        }
     }
 
 }

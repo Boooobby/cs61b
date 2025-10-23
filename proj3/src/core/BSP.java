@@ -9,6 +9,7 @@ import java.util.Random;
 public class BSP {
 
     private TETile[][] world;
+    private int width, height;
     private Node root;
     private Random random;
 
@@ -29,21 +30,22 @@ public class BSP {
         }
     }
 
-    public BSP(int width, int height, Random r) {
-        world = new TETile[width][height];
+    public BSP(int w, int h, Random r) {
+        width = w;
+        height = h;
+        world = new TETile[w][h];
         fillTheWorldWithNothing();
-        root = new Node(new Point(0, 0), width, height);
+        root = new Node(new Point(0, 0), w, h);
         random = r;
     }
 
-    public void fillTheWorldWithNothing() {
+    private void fillTheWorldWithNothing() {
         for (int i = 0; i < world.length; i++) {
             for (int j = 0; j < world[0].length; j++) {
                 world[i][j] = Tileset.NOTHING;
             }
         }
     }
-
 
     private Node splitTheWorld(Node node) {
         if (isTooSmall(node)) {
@@ -53,7 +55,7 @@ public class BSP {
 
         if (node.width >= node.height) {
             // split by width and split recursively
-            int newWidth = Math.max((int)(RandomUtils.uniform(random, 0.4, 0.6) * node.width), 1);
+            int newWidth = (int)(RandomUtils.uniform(random, 0.4, 0.6) * node.width);
             Point rightChild = new Point(node.bottomLeft.getX() + newWidth, node.bottomLeft.getY());
 
             node.left = new Node(node.bottomLeft, newWidth, node.height);
@@ -63,7 +65,7 @@ public class BSP {
             node.right = splitTheWorld(node.right);
         } else {
             // split by height and split recursively
-            int newHeight = Math.max((int)(RandomUtils.uniform(random, 0.4, 0.6) * node.height), 1);
+            int newHeight = (int)(RandomUtils.uniform(random, 0.4, 0.6) * node.height);
             Point rightChild = new Point(node.bottomLeft.getX(), node.bottomLeft.getY() + newHeight);
 
             node.left = new Node(node.bottomLeft, node.width, newHeight);
