@@ -89,7 +89,7 @@ public class BSP {
         if (failToCreate(xp, yp, w, h)) {
             return false;
         } else {
-            node.room = new Room(xp, yp, w, h);
+            node.room = new Room(xp, yp, w, h, random);
             fillWithFloor(xp, yp, w, h);
             return true;
         }
