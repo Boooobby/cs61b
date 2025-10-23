@@ -155,7 +155,8 @@ public class BSP {
     }
 
     public TETile[][] generateTheWorld() {
-        return null;
+        splitTheWorld(root);
+        return world;
     }
 
 }

@@ -29,6 +29,10 @@ public class World {
         bsp = new BSP(width, height, random);
     }
 
+    public TETile[][] getWorld() {
+        return world;
+    }
+
     public void generateWorld() {
         fillTheWorldWithNothing();
         world = bsp.generateTheWorld();
