@@ -28,4 +28,8 @@ public class World {
         bsp = new BSP(width, height, random);
     }
 
+    public void generateWorld() {
+        world = bsp.generateTheWorld();
+    }
+
 }
