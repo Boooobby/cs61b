@@ -2,10 +2,13 @@ package core;
 
 import tileengine.TETile;
 
+import java.util.Random;
+
 public class BSP {
 
     private TETile[][] world;
     private Node root;
+    private Random random;
 
     private class Node {
         Point bottomLeft;
@@ -22,9 +25,10 @@ public class BSP {
         }
     }
 
-    public BSP(int width, int height) {
+    public BSP(int width, int height, Random r) {
         world = new TETile[width][height];
         root = new Node(new Point(0, 0), width, height);
+        random = r;
     }
 
     private Node splitTheWorld(Node node) {
