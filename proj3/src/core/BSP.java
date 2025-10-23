@@ -26,7 +26,6 @@ public class BSP {
             height = h;
             left = right = null;
             room = null;
-            tooSmallFactor = Math.max(width, height) / 5;
         }
     }
 
@@ -37,6 +36,7 @@ public class BSP {
         fillTheWorldWithNothing();
         root = new Node(new Point(0, 0), w, h);
         random = r;
+        tooSmallFactor = Math.max(width, height) / 6;
     }
 
     private void fillTheWorldWithNothing() {
