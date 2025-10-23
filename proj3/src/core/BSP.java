@@ -31,9 +31,19 @@ public class BSP {
 
     public BSP(int width, int height, Random r) {
         world = new TETile[width][height];
+        fillTheWorldWithNothing();
         root = new Node(new Point(0, 0), width, height);
         random = r;
     }
+
+    public void fillTheWorldWithNothing() {
+        for (int i = 0; i < world.length; i++) {
+            for (int j = 0; j < world[0].length; j++) {
+                world[i][j] = Tileset.NOTHING;
+            }
+        }
+    }
+
 
     private Node splitTheWorld(Node node) {
         if (isTooSmall(node)) {
@@ -43,7 +53,7 @@ public class BSP {
 
         if (node.width >= node.height) {
             // split by width and split recursively
-            int newWidth = (int)(RandomUtils.uniform(random, 0.4, 0.6) * node.width);
+            int newWidth = Math.max((int)(RandomUtils.uniform(random, 0.4, 0.6) * node.width), 1);
             Point rightChild = new Point(node.bottomLeft.getX() + newWidth, node.bottomLeft.getY());
 
             node.left = new Node(node.bottomLeft, newWidth, node.height);
@@ -53,7 +63,7 @@ public class BSP {
             node.right = splitTheWorld(node.right);
         } else {
             // split by height and split recursively
-            int newHeight = (int)(RandomUtils.uniform(random, 0.4, 0.6) * node.height);
+            int newHeight = Math.max((int)(RandomUtils.uniform(random, 0.4, 0.6) * node.height), 1);
             Point rightChild = new Point(node.bottomLeft.getX(), node.bottomLeft.getY() + newHeight);
 
             node.left = new Node(node.bottomLeft, node.width, newHeight);
@@ -77,14 +87,14 @@ public class BSP {
 
     private boolean createRoom(Node node) {
         int xLBound = node.bottomLeft.getX() + 1;
-        int xUBound = node.bottomLeft.getX() + node.width - 1;
+        int xUBound = (node.bottomLeft.getX() + node.width) - 2;
         int yLBound = node.bottomLeft.getY() + 1;
-        int yUBound = node.bottomLeft.getY() + node.height - 1;
+        int yUBound = (node.bottomLeft.getY() + node.height) - 2;
 
         int xp = RandomUtils.uniform(random, xLBound, xUBound);
         int yp = RandomUtils.uniform(random, yLBound, yUBound);
-        int w = RandomUtils.uniform(random, Room.minWidth, node.width - 1);
-        int h = RandomUtils.uniform(random, Room.minHeight, node.height - 1);
+        int w = Math.max(RandomUtils.uniform(random, Room.minWidth, node.width - 1) - 4, 1);
+        int h = Math.max(RandomUtils.uniform(random, Room.minHeight, node.height - 1) - 4, 1);
 
         if (failToCreate(xp, yp, w, h)) {
             return false;
@@ -96,6 +106,9 @@ public class BSP {
     }
 
     private boolean failToCreate(int xp, int yp, int w, int h) {
+        if (xp + w >= 100 || yp + h >= 100) {
+            return true;
+        }
         for (int i = xp; i < xp + w; i++) {
             for (int j = yp; j < yp + h; j++) {
                 if (world[i][j] != Tileset.NOTHING) {
