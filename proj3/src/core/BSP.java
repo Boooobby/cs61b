@@ -1,6 +1,7 @@
 package core;
 
 import tileengine.TETile;
+import tileengine.Tileset;
 import utils.RandomUtils;
 
 import java.util.Random;
@@ -10,6 +11,8 @@ public class BSP {
     private TETile[][] world;
     private Node root;
     private Random random;
+
+    private static final int tooSmallFactor = 8;
 
     private class Node {
         Point bottomLeft;
@@ -65,7 +68,7 @@ public class BSP {
     }
 
     private boolean isTooSmall(Node node) {
-        if (node.width <= 10 || node.height <= 10) {
+        if (node.width <= tooSmallFactor || node.height <= tooSmallFactor) {
             return true;
         }
         // can be more flexible
@@ -73,7 +76,42 @@ public class BSP {
     }
 
     private boolean createRoom(Node node) {
+        int xLBound = node.bottomLeft.getX() + 1;
+        int xUBound = node.bottomLeft.getX() + node.width - 1;
+        int yLBound = node.bottomLeft.getY() + 1;
+        int yUBound = node.bottomLeft.getY() + node.height - 1;
+
+        int xp = RandomUtils.uniform(random, xLBound, xUBound);
+        int yp = RandomUtils.uniform(random, yLBound, yUBound);
+        int w = RandomUtils.uniform(random, Room.minWidth, node.width - 1);
+        int h = RandomUtils.uniform(random, Room.minHeight, node.height - 1);
+
+        if (failToCreate(xp, yp, w, h)) {
+            return false;
+        } else {
+            node.room = new Room(xp, yp, w, h);
+            fillWithFloor(xp, yp, w, h);
+            return true;
+        }
+    }
+
+    private boolean failToCreate(int xp, int yp, int w, int h) {
+        for (int i = xp; i < xp + w; i++) {
+            for (int j = yp; j < yp + h; j++) {
+                if (world[i][j] != Tileset.NOTHING) {
+                    return true;
+                }
+            }
+        }
         return false;
+    }
+
+    private void fillWithFloor(int xp, int yp, int w, int h) {
+        for (int i = xp; i < xp + w; i++) {
+            for (int j = yp; j < yp + h; j++) {
+                world[i][j] = Tileset.FLOOR;
+            }
+        }
     }
 
     // connect two children of node

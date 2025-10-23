@@ -9,8 +9,8 @@ public class Room {
     private Point bottomLeft;
     private int width;
     private int height;
-    private static final int minWidth = 2;
-    private static final int minHeight = 2;
+    public static final int minWidth = 2;
+    public static final int minHeight = 2;
 
     public Room(int x, int y, int w, int h) {
         bottomLeft = new Point(x, y);
