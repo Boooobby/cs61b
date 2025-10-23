@@ -20,9 +20,9 @@ public class BSP {
         }
     }
 
-    public BSP(TETile[][] tiles) {
-        world = tiles;
-        root = new Node(new Point(0, 0), world.length, world[0].length);
+    public BSP(int width, int height) {
+        world = new TETile[width][height];
+        root = new Node(new Point(0, 0), width, height);
     }
 
     private Node splitTheWorld(Node node) {
@@ -49,6 +49,7 @@ public class BSP {
         return false;
     }
 
+    // connect two children of node
     private Node connectTheRoom(Node node) {
         return null;
     }
