@@ -93,8 +93,8 @@ public class BSP {
 
         int xp = RandomUtils.uniform(random, xLBound, xUBound);
         int yp = RandomUtils.uniform(random, yLBound, yUBound);
-        int w = Math.max(RandomUtils.uniform(random, Room.minWidth, node.width - 1) - 4, 1);
-        int h = Math.max(RandomUtils.uniform(random, Room.minHeight, node.height - 1) - 4, 1);
+        int w = Math.max(RandomUtils.uniform(random, Room.minWidth, node.width - 1) - 4, 2);
+        int h = Math.max(RandomUtils.uniform(random, Room.minHeight, node.height - 1) - 4, 2);
 
         if (failToCreate(xp, yp, w, h)) {
             return false;
@@ -106,7 +106,7 @@ public class BSP {
     }
 
     private boolean failToCreate(int xp, int yp, int w, int h) {
-        if (xp + w >= 100 || yp + h >= 100) {
+        if (xp + w >= 50 || yp + h >= 50) {
             return true;
         }
         for (int i = xp; i < xp + w; i++) {

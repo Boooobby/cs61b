@@ -7,9 +7,9 @@ public class Main {
 
         // build your own world!
         TERenderer ter = new TERenderer();
-        ter.initialize(100, 100);
+        ter.initialize(50, 50);
 
-        World w = new World(102002302L, 100, 100);
+        World w = new World(102002302L, 50, 50);
         w.generateWorld();
 
         ter.renderFrame(w.getWorld());
