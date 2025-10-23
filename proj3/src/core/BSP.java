@@ -65,6 +65,10 @@ public class BSP {
     }
 
     private boolean isTooSmall(Node node) {
+        if (node.width <= 10 || node.height <= 10) {
+            return true;
+        }
+        // can be more flexible
         return false;
     }
 
