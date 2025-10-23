@@ -17,7 +17,15 @@ public class World {
     private long seed;
 
     public World(long seed) {
-        
+        this(seed, minWidth, minHeight);
+    }
+
+    public World(long seed, int w, int h) {
+        random = new Random(seed);
+        width = w;
+        height = h;
+        world = new TETile[w][h];
+        bsp = new BSP(width, height, random);
     }
 
 }
