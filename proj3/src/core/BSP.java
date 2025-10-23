@@ -11,12 +11,14 @@ public class BSP {
         Point bottomLeft;
         int width, height;
         Node left, right;
+        Room room;
 
         Node(Point p, int w, int h) {
             bottomLeft = p;
             width = w;
             height = h;
             left = right = null;
+            room = null;
         }
     }
 
