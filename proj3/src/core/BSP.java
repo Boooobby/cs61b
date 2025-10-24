@@ -36,7 +36,18 @@ public class BSP {
         fillTheWorldWithNothing();
         root = new Node(new Point(0, 0), w, h);
         random = r;
-        tooSmallFactor = Math.max(width, height) / 6;
+        tooSmallFactor = optionalFactor();
+    }
+
+    private int optionalFactor() {
+        int avgSize = (width + height) / 2;
+        if (avgSize < 40) {
+            return 8;
+        } else if (avgSize < 80) {
+            return 12;
+        } else {
+            return 16;
+        }
     }
 
     private void fillTheWorldWithNothing() {
