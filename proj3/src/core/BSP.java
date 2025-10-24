@@ -88,6 +88,7 @@ public class BSP {
     }
 
     private boolean createRoom(Node node) {
+        /*
         int xLBound = node.bottomLeft.getX() + 1;
         int xUBound = node.bottomLeft.getX() + node.width / 2;
         int yLBound = node.bottomLeft.getY() + 1;
@@ -97,6 +98,24 @@ public class BSP {
         int yp = RandomUtils.uniform(random, yLBound, yUBound);
         int w = Math.max(RandomUtils.uniform(random, Room.minWidth, node.width - 1) - 4, Room.minWidth);
         int h = Math.max(RandomUtils.uniform(random, Room.minHeight, node.height - 1) - 4, Room.minHeight);
+        */
+
+        int maxWidth = node.width - 2;
+        int maxHeight = node.height - 2;
+
+        int w = RandomUtils.uniform(random, Room.minWidth, maxWidth);
+        int h = RandomUtils.uniform(random, Room.minHeight, maxHeight);
+
+        int minX = node.bottomLeft.getX() + 1;
+        int maxX = node.bottomLeft.getX() + node.width - w;
+        int minY = node.bottomLeft.getY() + 1;
+        int maxY = node.bottomLeft.getY() + node.height - h;
+        if (minX >= maxX || minY >= maxY) {
+            return false;
+        }
+
+        int xp = RandomUtils.uniform(random, minX, maxX);
+        int yp = RandomUtils.uniform(random, minY, maxY);
 
         if (failToCreate(xp, yp, w, h)) {
             return false;
