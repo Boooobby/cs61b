@@ -134,18 +134,17 @@ public class BSP {
         Point p1 = node.left.room.chooseAPoint();
         Point p2 = node.right.room.chooseAPoint();
 
-        // x-axis
-        if (p1.getX() < p2.getX()) {
-            fillTheYRoad(p1.getX(), p2.getX(), p1.getY());
+        // randomly choose a path
+        int x1 = Math.min(p1.getX(), p2.getX());
+        int x2 = Math.max(p1.getX(), p2.getX());
+        int y1 = Math.min(p1.getY(), p2.getY());
+        int y2 = Math.max(p1.getY(), p2.getY());
+        if (RandomUtils.bernoulli(random)) {
+            fillTheXRoad(x1, x2, p1.getY());
+            fillTheYRoad(y1, y2, p2.getX());
         } else {
-            fillTheXRoad(p2.getX(), p1.getX(), p1.getY());
-        }
-
-        // y-axis
-        if (p1.getY() < p2.getY()) {
-            fillTheYRoad(p1.getY(), p2.getY(), p2.getX());
-        } else {
-            fillTheYRoad(p2.getY(), p1.getY(), p2.getX());
+            fillTheYRoad(y1, y2, p2.getX());
+            fillTheXRoad(x1, x2, p1.getY());
         }
 
         // choose a room from one child
