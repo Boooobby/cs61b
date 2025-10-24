@@ -17,7 +17,7 @@ public class Movement {
 
     Tetris tetris;
 
-    public Movement (int width, int game_height, Tetris tetris) {
+    public Movement(int width, int game_height, Tetris tetris) {
         this.WIDTH = width;
         this.GAME_HEIGHT = game_height;
         this.tetris = tetris;
