@@ -5,6 +5,7 @@ import tileengine.Tileset;
 import utils.RandomUtils;
 
 import java.util.Random;
+import java.util.Timer;
 
 public class BSP {
 
@@ -198,8 +199,46 @@ public class BSP {
         }
     }
 
+    private void createWall() {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (world[x][y] != Tileset.NOTHING) {
+                    continue;
+                }
+                if (hasFloorNeighbors(x, y)) {
+                    world[x][y] = Tileset.WALL;
+                }
+            }
+        }
+    }
+
+    private boolean hasFloorNeighbors(int x, int y) {
+        int[] dx = {-1, 0, 1};
+        int[] dy = {-1, 0, 1};
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (i == 1 && i == j) {
+                    continue;
+                }
+                int nx = x + dx[i];
+                int ny = y + dy[j];
+                if (nx < 0 || ny < 0 || nx >= width || ny >= height) {
+                    continue;
+                }
+
+                if (world[nx][ny] == Tileset.FLOOR) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public TETile[][] generateTheWorld() {
         splitTheWorld(root);
+        createWall();
         return world;
     }
 
