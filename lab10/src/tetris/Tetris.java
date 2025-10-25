@@ -5,6 +5,7 @@ import tileengine.TETile;
 import tileengine.TERenderer;
 import tileengine.Tileset;
 
+import java.awt.*;
 import java.util.*;
 
 /**
@@ -156,11 +157,9 @@ public class Tetris {
         for (int line = Tetris.HEIGHT - 1; line >= 0; line--) {
             if (isLineBeFilled(tiles, line)) {
                 linesCleared++;
-                setAuxTrue();
                 for (int newLine = line; newLine < Tetris.HEIGHT; newLine++) {
                     for (int i = 0; i < Tetris.WIDTH; i++) {
-                        tiles[i][newLine] = auxiliary[i][newLine + 1];
-                        auxiliary[i][newLine] = auxiliary[i][newLine + 1];
+                        tiles[i][newLine] = tiles[i][newLine + 1];
                     }
                 }
             }
@@ -204,10 +203,19 @@ public class Tetris {
                 updateBoard();
                 renderBoard();
             }
+            Tetromino t = currentTetromino;
+            Tetromino.draw(t, board, t.pos.x, t.pos.y);
+            fillAux();
+            setAuxTrue();
+
             setCurrentTetromino();
             clearLines(board);
             renderBoard();
         }
+
+        StdDraw.clear(Color.BLACK);
+        StdDraw.text(5, 10, "Game over");
+        StdDraw.show();
     }
 
     /**
@@ -215,7 +223,8 @@ public class Tetris {
      */
     private void renderScore() {
         // TODO: Use the StdDraw library to draw out the score.
-
+        StdDraw.setPenColor(255, 255, 255);
+        StdDraw.text(7, 19, "score: " + score);
     }
 
     /**
