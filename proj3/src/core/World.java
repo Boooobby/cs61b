@@ -13,6 +13,8 @@ public class World {
     private int width;
     private int height;
 
+    private Point avatarPlace;
+
     private BSP bsp;
     private Random random;
     private long seed;
@@ -35,6 +37,7 @@ public class World {
 
     public void generateWorld() {
         world = bsp.generateTheWorld();
+        avatarPlace = bsp.getAvatarPlace();
     }
 
 }

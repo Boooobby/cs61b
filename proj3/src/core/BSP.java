@@ -15,6 +15,8 @@ public class BSP {
     private Random random;
     private int tooSmallFactor;
 
+    Point avatarPlace = null;
+
     private class Node {
         Point bottomLeft;
         int width, height;
@@ -236,9 +238,20 @@ public class BSP {
         return false;
     }
 
+    private void setAvatar() {
+        Point avatar = root.room.chooseAPoint();
+        world[avatar.getX()][avatar.getY()] = Tileset.AVATAR;
+        avatarPlace = avatar;
+    }
+
+    public Point getAvatarPlace() {
+        return avatarPlace;
+    }
+
     public TETile[][] generateTheWorld() {
         splitTheWorld(root);
         createWall();
+        setAvatar();
         return world;
     }
 
