@@ -4,10 +4,19 @@ import core.Point;
 import core.World;
 import tileengine.TETile;
 
+import java.util.Random;
+
 public abstract class Entity {
 
     private int health;
     private Point place;
+    private Random random;
+
+    public Entity(int health, Point place, Random random) {
+        this.health = health;
+        this.place = place;
+        this.random = random;
+    }
 
     public void tryMove(int dx, int dy, TETile[][] tiles) {
         if (canMove(dx, dy, tiles)) {
