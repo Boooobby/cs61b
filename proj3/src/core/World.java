@@ -31,6 +31,16 @@ public class World {
         bsp = new BSP(width, height, random);
     }
 
+    public static void swap(TETile[][] tiles, Point p1, Point p2) {
+        int x1 = p1.getX();
+        int y1 = p1.getY();
+        int x2 = p2.getX();
+        int y2 = p2.getY();
+        TETile temp = tiles[x1][y1];
+        tiles[x1][y1] = tiles[x2][y2];
+        tiles[x2][y2] = temp;
+    }
+
     public TETile[][] getWorld() {
         return world;
     }
