@@ -8,9 +8,9 @@ import java.util.Random;
 
 public abstract class Entity {
 
-    private int health;
-    private Point place;
-    private Random random;
+    protected int health;
+    protected Point place;
+    protected Random random;
 
     public Entity(int health, Point place, Random random) {
         this.health = health;
@@ -26,5 +26,9 @@ public abstract class Entity {
     }
 
     public abstract boolean canMove(int dx, int dy, TETile[][] tiles);
+
+    public Point getPlace() {
+        return place;
+    }
 
 }

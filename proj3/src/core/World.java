@@ -1,5 +1,7 @@
 package core;
 
+import entity.Avatar;
+import entity.Entity;
 import tileengine.TETile;
 import tileengine.Tileset;
 
@@ -13,7 +15,7 @@ public class World {
     private int width;
     private int height;
 
-    private Point avatarPlace;
+    private Entity avatar;
 
     private BSP bsp;
     private Random random;
@@ -47,7 +49,7 @@ public class World {
 
     public void generateWorld() {
         world = bsp.generateTheWorld();
-        avatarPlace = bsp.getAvatarPlace();
+        avatar = new Avatar(3, bsp.getAvatarPlace(), random);
     }
 
 }
