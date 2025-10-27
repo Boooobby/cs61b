@@ -22,10 +22,15 @@ public abstract class Entity {
         if (canMove(dx, dy, tiles)) {
             Point newPlace = new Point(place.getX() + dx, place.getY() + dy);
             World.swap(tiles, place, newPlace);
+            place = newPlace;
         }
     }
 
     public abstract boolean canMove(int dx, int dy, TETile[][] tiles);
+
+    public int getHealth() {
+        return health;
+    }
 
     public Point getPlace() {
         return place;
